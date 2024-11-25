@@ -1,36 +1,42 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <Package xmlns="http://soap.sforce.com/2006/04/metadata">
-    <types>
-        <members>*</members>
-        <name>ApexClass</name>
-    </types>
-    <types>
-        <members>*</members>
-        <name>ApexComponent</name>
-    </types>
-    <types>
-        <members>*</members>
-        <name>ApexPage</name>
-    </types>
-    <types>
-        <members>*</members>
-        <name>ApexTestSuite</name>
-    </types>
-    <types>
-        <members>*</members>
-        <name>ApexTrigger</name>
-    </types>
-    <types>
-        <members>*</members>
-        <name>AuraDefinitionBundle</name>
-    </types>
-    <types>
-        <members>*</members>
-        <name>LightningComponentBundle</name>
-    </types>
-    <types>
-        <members>*</members>
-        <name>StaticResource</name>
-    </types>
-    <version>61.0</version>
+	<types>
+		<members>Opportunity.OportunidadeGalmo</members>
+		<members>Opportunity.OportunidadeLocador</members>
+		<members>Opportunity.OportunidadeLocatário</members>
+		<members>Opportunity.OportunidadeVenda</members>
+		<members>Opportunity.Pipeline de Oportunidade - Equipe de Locação</members>
+		<name>BusinessProcess</name>
+	</types>
+	<types>
+		<members>OportunidadeLocador</members>
+		<members>OportunidadeLocatario</members>
+		<members>OportunidadeVendas</members>
+		<name>FlexiPage</name>
+	</types>
+	<types>
+		<members>Opportunity-Opportunity Layout</members>
+		<members>Opportunity-Opportunity Layout - Comunidade</members>
+		<members>Opportunity-Opportunity Layout Locador</members>
+		<members>Opportunity-Opportunity Layout Locatario</members>
+		<name>Layout</name>
+	</types>
+	<types>
+		<members>equipeVendasOpp</members>
+		<name>LightningComponentBundle</name>
+	</types>
+	<types>
+		<members>Default_Opportunity</members>
+		<members>Oportunidade_Locador</members>
+		<members>Oportunidade_Locatario</members>
+		<name>PathAssistant</name>
+	</types>
+	<types>
+		<members>Opportunity.Aluguel</members>
+		<members>Opportunity.Locador_Proprietario</members>
+		<members>Opportunity.Locatario</members>
+		<members>Opportunity.Venda</members>
+		<name>RecordType</name>
+	</types>
+	<version>60.0</version>
 </Package>
