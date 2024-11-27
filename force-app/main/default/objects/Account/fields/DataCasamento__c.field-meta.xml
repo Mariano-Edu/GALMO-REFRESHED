@@ -3,6 +3,7 @@
     <fullName>DataCasamento__c</fullName>
     <businessStatus>Active</businessStatus>
     <description>Campo onde deve ser preeenchido com a data de casamento do usuário.</description>
+    <externalId>false</externalId>
     <inlineHelpText>Campo onde deve ser preeenchido com a data de casamento do usuário.</inlineHelpText>
     <label>Data de Casamento</label>
     <required>false</required>

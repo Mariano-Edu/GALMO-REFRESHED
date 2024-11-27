@@ -2,6 +2,7 @@
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>RoletaLeads__c</fullName>
     <deleteConstraint>SetNull</deleteConstraint>
+    <externalId>false</externalId>
     <label>Roleta de Leads</label>
     <referenceTo>RoletaLeads__c</referenceTo>
     <relationshipLabel>Sorteios</relationshipLabel>

@@ -19,4 +19,15 @@ public class EmpreendimentoSelector {
             WHERE Id = :idEmpreendimento
         ];
     }
+
+    public static Empreendimento__c getEmpreendimentoById(Id idEmpreendimento) {
+        return [
+            SELECT 
+                Name
+            FROM Empreendimento__c 
+            WHERE Id = :idEmpreendimento
+        ];
+    }
+
+
 }

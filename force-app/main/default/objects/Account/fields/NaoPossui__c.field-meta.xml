@@ -3,6 +3,7 @@
     <fullName>NaoPossui__c</fullName>
     <defaultValue>false</defaultValue>
     <description>Possui dependentes ou não</description>
+    <externalId>false</externalId>
     <label>Não Possui</label>
     <trackFeedHistory>false</trackFeedHistory>
     <type>Checkbox</type>
