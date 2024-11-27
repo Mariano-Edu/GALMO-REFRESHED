@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
-    <fullName>StatusAprovacao__c</fullName>
-    <description>Status da aprovação da oportunidade</description>
+    <fullName>StatusDo1Pagamento__c</fullName>
     <externalId>false</externalId>
-    <label>Status Da Aprovação</label>
+    <label>Status do 1º pagamento</label>
     <required>false</required>
     <trackFeedHistory>false</trackFeedHistory>
     <type>Picklist</type>
@@ -12,14 +11,19 @@
         <valueSetDefinition>
             <sorted>false</sorted>
             <value>
-                <fullName>Aprovado</fullName>
+                <fullName>Pago</fullName>
                 <default>false</default>
-                <label>Aprovado</label>
+                <label>Pago</label>
             </value>
             <value>
-                <fullName>Reprovado</fullName>
+                <fullName>Não Pago</fullName>
                 <default>false</default>
-                <label>Reprovado</label>
+                <label>Não Pago</label>
+            </value>
+            <value>
+                <fullName>Desistência</fullName>
+                <default>false</default>
+                <label>Desistência</label>
             </value>
         </valueSetDefinition>
     </valueSet>
