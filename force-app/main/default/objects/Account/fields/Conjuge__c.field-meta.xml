@@ -5,6 +5,7 @@
     <description>Campo deve ser preenchido com
  a conta do cônjuje se houver
 Ativar a compatibilidade com o leitor de tela</description>
+    <externalId>false</externalId>
     <label>Cônjuge</label>
     <referenceTo>Account</referenceTo>
     <relationshipLabel>Contas</relationshipLabel>

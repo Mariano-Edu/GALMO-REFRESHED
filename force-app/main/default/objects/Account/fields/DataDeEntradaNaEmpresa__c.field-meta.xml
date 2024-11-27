@@ -2,6 +2,7 @@
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>DataDeEntradaNaEmpresa__c</fullName>
     <description>Data de entrada da conta na empresa</description>
+    <externalId>false</externalId>
     <label>Data de entrada na empresa</label>
     <required>false</required>
     <trackFeedHistory>false</trackFeedHistory>
