@@ -2,6 +2,7 @@
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>RemuneracaoMensalLiquido__c</fullName>
     <description>Remuneração mensal (Líquido) da conta</description>
+    <externalId>false</externalId>
     <label>Remuneração mensal (Líquido)</label>
     <precision>18</precision>
     <required>false</required>

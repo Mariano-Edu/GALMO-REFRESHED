@@ -2,6 +2,7 @@
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>GratificacsoAnual__c</fullName>
     <description>Gratificação anual da conta</description>
+    <externalId>false</externalId>
     <label>Gratificação anual</label>
     <precision>18</precision>
     <required>false</required>

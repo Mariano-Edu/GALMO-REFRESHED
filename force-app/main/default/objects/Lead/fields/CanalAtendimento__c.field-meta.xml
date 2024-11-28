@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>CanalAtendimento__c</fullName>
+    <externalId>false</externalId>
     <inlineHelpText>Indica o canal ou meio que o lead utilizou para se conectar com a empresa.</inlineHelpText>
     <label>Canal de Atendimento</label>
     <required>false</required>
