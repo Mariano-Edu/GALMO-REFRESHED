@@ -63,6 +63,7 @@ public class SeriePagamentosService {
             serieDTO.valorTotal = serie.ValorTotal__c;
             serieDTO.quantidadeParcelas = serie.QuantidadeParcelas__c.intValue();
             // serieDTO.periodicidade = serie.Periodicidade__c.intValue();
+            serieDTO.periodicidade = null;
             serieDTO.inicioPagamento = serie.InicioPagamento__c.intValue();
             serieDTO.tabelaVenda = serie.TabelaVenda__c;
             serieDTO.aposHabiteSe = serie.AposHabiteSe__c;
