@@ -17,5 +17,5 @@
     </customValue>
     <description>Define o valor esperado, validando o valores da proposta</description>
     <masterLabel>Variações do Limite para Bloqueio</masterLabel>
-    <sorted>false</sorted>
+    <sorted>true</sorted>
 </GlobalValueSet>

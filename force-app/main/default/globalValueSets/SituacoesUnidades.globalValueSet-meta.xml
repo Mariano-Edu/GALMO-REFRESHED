@@ -15,12 +15,6 @@
         <default>false</default>
         <label>Vendida</label>
     </customValue>
-    <customValue>
-        <fullName>Livre</fullName>
-        <default>false</default>
-        <isActive>false</isActive>
-        <label>Livre</label>
-    </customValue>
     <masterLabel>Situações das unidades</masterLabel>
     <sorted>false</sorted>
 </GlobalValueSet>
