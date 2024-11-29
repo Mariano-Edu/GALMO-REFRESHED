@@ -3,6 +3,7 @@
     <fullName>AssesoriaCredito__c</fullName>
     <deleteConstraint>SetNull</deleteConstraint>
     <description>Assesoria de Crédito da Oportunidade</description>
+    <externalId>false</externalId>
     <label>Assesoria de Crédito da Oportunidade</label>
     <referenceTo>Account</referenceTo>
     <relationshipLabel>Oportunidades</relationshipLabel>

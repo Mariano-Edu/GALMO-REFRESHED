@@ -3,6 +3,7 @@
     <fullName>NaoCompartilharDados__c</fullName>
     <defaultValue>false</defaultValue>
     <description>Clientes que não desejam ter seus dados compartilhados</description>
+    <externalId>false</externalId>
     <inlineHelpText>Clientes que não desejam ter seus dados compartilhados</inlineHelpText>
     <label>Não compartilhar dados</label>
     <trackFeedHistory>false</trackFeedHistory>
