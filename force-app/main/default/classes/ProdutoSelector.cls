@@ -3,7 +3,7 @@ public class ProdutoSelector {
         return [
             SELECT
                 Empreendimento__r.Name,
-                Empreendimento__r.DiasDeVencimentoDaParcela__c,
+                // Empreendimento__r.DiasDeVencimentoDaParcela__c,
                 Name, Andar__c,
                 MetragemTotal__c,
                 NumeroDaUnidade__c,
