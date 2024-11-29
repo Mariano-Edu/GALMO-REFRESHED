@@ -7,6 +7,14 @@
 		<members>AnaliseCreditoHelperTest</members>
 		<members>AnaliseCreditoTriggerHandler</members>
 		<members>AnaliseCreditoTriggerHandlerTest</members>
+		<members>ChecklistController</members>
+		<members>ChecklistControllerTest</members>
+		<members>ChecklistDA</members>
+		<members>ChecklistDATest</members>
+		<members>ChecklistHelper</members>
+		<members>ChecklistHelperTest</members>
+		<members>ChecklistTriggerHandler</members>
+		<members>ChecklistTriggerHandlerTest</members>
 		<members>DocumentController</members>
 		<members>DocumentControllerTest</members>
 		<members>DocumentacaoDA</members>
@@ -14,10 +22,20 @@
 		<members>DocumentacaoHelper</members>
 		<members>DocumentacaoHelperTest</members>
 		<members>EmailManager</members>
+		<members>OpportunityDA</members>
+		<members>OpportunityDATest</members>
+		<members>OpportunityHelper</members>
+		<members>OpportunityHelperTest</members>
+		<members>OpportunityTriggerHandler</members>
+		<members>OpportunityTriggerHandlerTest</members>
+		<members>TestDataFactory</members>
 		<name>ApexClass</name>
 	</types>
 	<types>
 		<members>AnaliseCreditoTrigger</members>
+		<members>ChecklistTrigger</members>
+		<members>DocumentacaoTrigger</members>
+		<members>OpportunityTrigger</members>
 		<name>ApexTrigger</name>
 	</types>
 	<types>
@@ -61,6 +79,12 @@
 		<members>AnaliseCredito__c.ValorAplicado__c</members>
 		<members>AnaliseCredito__c.ValorFinanciamentoFGTS__c</members>
 		<members>AnaliseCredito__c.ValorFinanciamentoProposta__c</members>
+		<members>Checklist_de_Documentos__c.Contato__c</members>
+		<members>Checklist_de_Documentos__c.ContentDocumentId_c__c</members>
+		<members>Checklist_de_Documentos__c.Documenta_o__c</members>
+		<members>Checklist_de_Documentos__c.IsDelivered__c</members>
+		<members>Checklist_de_Documentos__c.Nome_do_Documento__c</members>
+		<members>Checklist_de_Documentos__c.Oportunidade__c</members>
 		<members>Documentacao__c.Contato__c</members>
 		<members>Documentacao__c.ContentDocumentId_c__c</members>
 		<members>Documentacao__c.Entregue__c</members>
@@ -90,6 +114,7 @@
 	</types>
 	<types>
 		<members>AnaliseCredito__c</members>
+		<members>Checklist_de_Documentos__c</members>
 		<members>Documentacao__c</members>
 		<members>Documento__mdt</members>
 		<name>CustomObject</name>
