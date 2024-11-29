@@ -2,6 +2,7 @@
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>PensaoAposentadoria__c</fullName>
     <description>Pensão/aposentadoria da conta</description>
+    <externalId>false</externalId>
     <label>Pensão/aposentadoria</label>
     <precision>18</precision>
     <required>false</required>
