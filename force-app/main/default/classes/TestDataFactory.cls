@@ -254,35 +254,35 @@ public class TestDataFactory {
         return quoteline;
     }
 
-    public static SeriePagamentos__c gerarSeriePagamento(Id idTabela){
-        SeriePagamentos__c serie = new SeriePagamentos__c();
-        serie.Name = 'Teste';
-        serie.InicioPagamento__c = 1;
-        serie.QuantidadeParcelas__c = 1;
-        serie.ValorTotal__c= 1;
-        serie.TabelaVenda__c = idTabela;
-        serie.TipoCondicao__c = 'Ato';
-        return serie;
-    }
+    // public static SeriePagamentos__c gerarSeriePagamento(Id idTabela){
+    //     SeriePagamentos__c serie = new SeriePagamentos__c();
+    //     serie.Name = 'Teste';
+    //     serie.InicioPagamento__c = 1;
+    //     serie.QuantidadeParcelas__c = 1;
+    //     serie.ValorTotal__c= 1;
+    //     serie.TabelaVenda__c = idTabela;
+    //     serie.TipoCondicao__c = 'Ato';
+    //     return serie;
+    // }
 
-    public static SeriePagamentosService.ObjetoSerie gerarObjetoSerie(String nomeSerie, Id idTabelaVenda){
-        SeriePagamentosService.ObjetoSerie serie = new SeriePagamentosService.ObjetoSerie();
-        serie.nome = nomeSerie;
-        serie.valorTotal = 4; 
-        serie.quantidadeParcelas = 1;
-        serie.periodicidade = 1;
-        serie.inicioPagamento = 0;
-        serie.aposHabiteSe = false;
-        return serie;
-    }
+    // public static SeriePagamentosService.ObjetoSerie gerarObjetoSerie(String nomeSerie, Id idTabelaVenda){
+    //     SeriePagamentosService.ObjetoSerie serie = new SeriePagamentosService.ObjetoSerie();
+    //     serie.nome = nomeSerie;
+    //     serie.valorTotal = 4; 
+    //     serie.quantidadeParcelas = 1;
+    //     serie.periodicidade = 1;
+    //     serie.inicioPagamento = 0;
+    //     serie.aposHabiteSe = false;
+    //     return serie;
+    // }
 
-    public static UnidadeTabelaVendas__c gerarUnidadeTabelaVendas(Id idTabela){
-        UnidadeTabelaVendas__c unidadeVenda = new UnidadeTabelaVendas__c();
-        unidadeVenda.Name = 'UnidadeVendaTeste';
-        unidadeVenda.TabelaVenda__c = idTabela;
-        unidadeVenda.PrecoLista__c = 300000;
-        return unidadeVenda;
-    } 
+    // public static UnidadeTabelaVendas__c gerarUnidadeTabelaVendas(Id idTabela){
+    //     UnidadeTabelaVendas__c unidadeVenda = new UnidadeTabelaVendas__c();
+    //     unidadeVenda.Name = 'UnidadeVendaTeste';
+    //     unidadeVenda.TabelaVenda__c = idTabela;
+    //     unidadeVenda.PrecoLista__c = 300000;
+    //     return unidadeVenda;
+    // } 
 
     public static Bloco__c gerarBloco(Empreendimento__c empreendimento){
         Bloco__c bloco = gerarBloco(empreendimento.Id);

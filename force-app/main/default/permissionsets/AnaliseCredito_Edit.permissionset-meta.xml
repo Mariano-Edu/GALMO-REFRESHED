@@ -95,11 +95,11 @@
         <field>AnaliseCredito__c.TotalRendaValorAplicado__c</field>
         <readable>true</readable>
     </fieldPermissions>
-    <fieldPermissions>
+    <!-- <fieldPermissions>
         <editable>true</editable>
         <field>AnaliseCredito__c.UnidadeTabelaVendas__c</field>
         <readable>true</readable>
-    </fieldPermissions>
+    </fieldPermissions> -->
     <fieldPermissions>
         <editable>true</editable>
         <field>AnaliseCredito__c.UtilizaAto__c</field>

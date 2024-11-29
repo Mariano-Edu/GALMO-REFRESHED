@@ -17,7 +17,8 @@ public class DocumentacaoHelper {
     }
 
     public static List<Documentacao__c> getByAnaliseCredito(Id analiseCreditoId) {
-        List<Checklist_de_Documentos__c> cklistDocs = ChecklistHelper.getByAnalisesCredito(new Set<Id>{analiseCreditoId});
+        // List<Checklist_de_Documentos__c> cklistDocs = ChecklistHelper.getByAnalisesCredito(new Set<Id>{analiseCreditoId});
+        List<Checklist_de_Documentos__c> cklistDocs = new List<Checklist_de_Documentos__c>();
         
         List<Documentacao__c> docs = new List<Documentacao__c>();
         for (Checklist_de_Documentos__c cklistDoc : cklistDocs) {

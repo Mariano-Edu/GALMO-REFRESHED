@@ -115,7 +115,9 @@ public with sharing class AnaliseCreditoHelper {
 
         if (analiseIds.isEmpty() || analisePorOpp.isEmpty()) return;
 
-        List<Checklist_de_Documentos__c> cklistDocs = ChecklistHelper.getByAnalisesCredito(analiseIds);
+        // List<Checklist_de_Documentos__c> cklistDocs = ChecklistHelper.getByAnalisesCredito(analiseIds);
+        List<Checklist_de_Documentos__c> cklistDocs = new List<Checklist_de_Documentos__c>();
+        
         for (Checklist_de_Documentos__c cklistDoc : cklistDocs) {
             if (cklistDoc.Oportunidade__c == null) throw new IllegalArgumentException('Oportunidade de Checklist não deve ser null.');
             if (cklistDoc.Documenta_o__c == null) throw new IllegalArgumentException('Documentacao de Checklist não deve ser null.');
@@ -145,7 +147,8 @@ public with sharing class AnaliseCreditoHelper {
 
         if (oppIds.isEmpty() || analisePorOpp.isEmpty()) return;
 
-        List<Opportunity> opps = OpportunityHelper.getByIds(oppIds);
+        // List<Opportunity> opps = OpportunityHelper.getByIds(oppIds);
+        List<Opportunity> opps = new List<Opportunity>();
         
         List<FeedItem> feeds = new List<FeedItem>();
         for (Opportunity opp : opps) {
