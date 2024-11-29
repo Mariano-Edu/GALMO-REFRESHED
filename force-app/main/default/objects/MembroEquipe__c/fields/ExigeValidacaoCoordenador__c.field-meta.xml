@@ -3,6 +3,7 @@
     <fullName>ExigeValidacaoCoordenador__c</fullName>
     <defaultValue>false</defaultValue>
     <description>Indica necessidade de validação de presença do corretor pelo coordenador para recepção de novos leads.</description>
+    <externalId>false</externalId>
     <inlineHelpText>Indica necessidade de validação de presença do corretor pelo coordenador para recepção de novos leads.</inlineHelpText>
     <label>Exige validação do coordenador?</label>
     <trackFeedHistory>true</trackFeedHistory>

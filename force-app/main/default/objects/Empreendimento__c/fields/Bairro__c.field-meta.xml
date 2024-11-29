@@ -2,6 +2,7 @@
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Bairro__c</fullName>
     <description>Bairro do Empreendimento</description>
+    <externalId>false</externalId>
     <label>Bairro</label>
     <length>256</length>
     <trackHistory>false</trackHistory>
