@@ -2,11 +2,11 @@ public class SeriePagamentoSelector {
     public static List<SeriePagamentos__c> obterSeriePagamentosPorInicioPagamento(Id tabelaVendasId){
         return  [ 
             SELECT
-                TipoCondicao__c,
+                // TipoCondicao__c,
                 InicioPagamento__c,
                 ValorTotal__c,
                 QuantidadeParcelas__c,
-                Periodicidade__c,
+                // Periodicidade__c,
                 AposHabiteSe__c,
                 Restante__c
             FROM SeriePagamentos__c
@@ -19,11 +19,11 @@ public class SeriePagamentoSelector {
         return [
             SELECT 
                 Id,
-                TipoCondicao__c,
+                // TipoCondicao__c,
                 ValorTotal__c,
                 QuantidadeParcelas__c, 
                 InicioPagamento__c,
-                Periodicidade__c,
+                // Periodicidade__c,
                 Restante__c,
                 AposHabiteSe__c,
                 TabelaVenda__c
@@ -37,7 +37,7 @@ public class SeriePagamentoSelector {
         return [
             SELECT
                 id,
-                TipoCondicao__c,
+                // TipoCondicao__c,
                 InicioPagamento__c,
                 QuantidadeParcelas__c,
                 ValorTotal__c,
@@ -53,12 +53,12 @@ public class SeriePagamentoSelector {
                 Id,
                 ValorTotal__c,
                 QuantidadeParcelas__c,
-                Periodicidade__c,
+                // Periodicidade__c,
                 InicioPagamento__c,
                 TabelaVenda__c,
                 AposHabiteSe__c,
                 Restante__c,
-                TipoCondicao__c,
+                // TipoCondicao__c,
                 DiaDeVencimento__c	
             FROM SeriePagamentos__c
             WHERE TabelaVenda__c = :idTabelaVendas    
