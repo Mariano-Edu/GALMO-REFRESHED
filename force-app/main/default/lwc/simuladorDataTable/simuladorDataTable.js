@@ -1,6 +1,6 @@
 import { api, LightningElement, track, wire  } from 'lwc';
 import { getPicklistValues } from "lightning/uiObjectInfoApi";
-import TIPO_CONDICAO_FIELD from "@salesforce/schema/SeriePagamentos__c.TipoCondicao__c";
+// import TIPO_CONDICAO_FIELD from "@salesforce/schema/SeriePagamentos__c.TipoCondicao__c";
 
 
 

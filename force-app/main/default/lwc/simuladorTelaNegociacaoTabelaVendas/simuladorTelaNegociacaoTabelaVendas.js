@@ -195,7 +195,8 @@ export default class SimuladorTelaNegociacaoTabelaVendas extends LightningElemen
 
             seriesPagamentos.push({
                 uid: this.generateUniqueId(),
-                TipoCondicao__c: element.TipoCondicao__c || null,
+                // TipoCondicao__c: element.TipoCondicao__c,
+                TipoCondicao__c: null,
                 InicioPagamento__c: calcularInicioPagamentoSeriePagamentos(element),
                 vencimentoParcela: null,
                 QuantidadeParcelas__c: element.QuantidadeParcelas__c,
