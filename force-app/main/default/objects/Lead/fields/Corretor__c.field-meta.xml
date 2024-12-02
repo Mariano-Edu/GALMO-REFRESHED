@@ -3,6 +3,7 @@
     <fullName>Corretor__c</fullName>
     <deleteConstraint>SetNull</deleteConstraint>
     <description>Indica o corretor responsável pelo lead.</description>
+    <externalId>false</externalId>
     <inlineHelpText>Indique o corretor responsável pelo lead.</inlineHelpText>
     <label>Corretor (Roleta)</label>
     <lookupFilter>

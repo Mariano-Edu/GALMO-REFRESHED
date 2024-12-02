@@ -2,6 +2,7 @@
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>VPL__c</fullName>
     <description>VPL da Oportunidade</description>
+    <externalId>false</externalId>
     <inlineHelpText>Valor Presente Líquido</inlineHelpText>
     <label>VPL</label>
     <precision>18</precision>

@@ -33,10 +33,10 @@
             <fullName>Radio</fullName>
             <default>false</default>
         </values>
-        <values>
+        <!-- <values>
             <fullName>Site Galmo</fullName>
             <default>false</default>
-        </values>
+        </values> -->
         <values>
             <fullName>Tapume</fullName>
             <default>false</default>
