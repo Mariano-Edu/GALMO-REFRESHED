@@ -1,7 +1,3 @@
 {
-<<<<<<< HEAD
-  "defaultusername": "https://galmoambientesf24--hml.sandbox.lightning.force.com/lightning/page/home"
-=======
-  "defaultusername": "galmoambientesf24--hml.sandbox.my.salesforce.com/"
->>>>>>> f399dce29288530bd533a1f55307a7eb83533bc3
+  "defaultusername": "https://galmoambientesf24--dev.sandbox.lightning.force.com"
 }
