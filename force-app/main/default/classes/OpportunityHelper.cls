@@ -1,0 +1,214 @@
+public with sharing class OpportunityHelper {
+
+    private static Map<String, String> mandatoryFields = new Map<String, String>{
+        'Amount' => 'Valor da Oportunidade',
+        'AccountId' => 'Conta',
+        'Name' => 'Nome da Oportunidade',
+        'Probability' => 'Probabilidade',
+        'CanalAtendimento__c' => 'Canal de Atendimento',
+        'TipoVenda__c' => 'Tipo de Venda'
+    };
+
+    private static Set<String> validStagesAfterFichaCadastral = new Set<String>{
+        'Pré-análise',
+        'Geração de Contrato',
+        'Conferência',
+        'Pagadoria',
+        'Fechado Ganho/Desistência'
+    };
+
+    public static List<Opportunity> getByIds(Set<Id> ids) {
+        if (ids == null) throw new IllegalArgumentException('A lista de ids não deve null.');
+
+        List<Opportunity> opps = OpportunityDA.getAllById(ids);
+        
+        if (opps == null || opps.isEmpty()) throw new IllegalArgumentException('Nenhum registro de opportunidade encontrado.');
+        
+        return opps;
+    }
+
+
+    public static void addDaysToCloseDateOnCreation(List<Opportunity> newOpps) {
+            for (Opportunity opp : newOpps) {
+                opp.CloseDate = Date.today().addDays(5);
+            }
+        }
+
+        
+    public static List<Schema.PicklistEntry> getPicklistValues(Schema.sObjectField field) {
+    
+        List<Schema.PicklistEntry> entries = field.getDescribe().getPickListValues();
+    
+        List<Schema.PicklistEntry> activeEntries = new List<Schema.PicklistEntry>();
+        for (Schema.PicklistEntry entry : entries) {
+            if (entry.isActive()) {
+                activeEntries.add(entry);
+            }
+        }
+        return activeEntries;
+    }
+    
+
+    public static void validateTransitionToFichaCadastral(List<Opportunity> newOpportunities, Map<Id, Opportunity> oldOpportunitiesMap) {
+        for (Opportunity newOpp : newOpportunities) {
+            Opportunity oldOpp = oldOpportunitiesMap.get(newOpp.Id);
+            
+            if (oldOpp.StageName != 'Negociação' || newOpp.StageName != 'Ficha Cadastral') continue;
+
+            boolean hasSyncedQuote = OpportunityDA.hasSyncedQuote(newOpp.Id);
+            boolean hasProducts = hasProducts(newOpp.Id);
+            boolean hasBuyers = hasBuyers(newOpp.Id);
+
+            for (String fieldName : mandatoryFields.keySet()) {
+                if (newOpp.get(fieldName) == null || String.isBlank(String.valueOf(newOpp.get(fieldName)))) {
+                    newOpp.addError(mandatoryFields.get(fieldName) + ' é um campo obrigatório.');
+                }
+            }
+
+            if (!hasSyncedQuote || !hasProducts || !hasBuyers) {
+                String errorMessage = 'Não é possível avançar para a Ficha Cadastral:';
+                if (!hasSyncedQuote) {
+                    errorMessage += '\n- Favor sincronizar uma cotação com a oportunidade.';
+                }
+                if (!hasProducts) {
+                    errorMessage += '\n- Pelo menos um produto da oportunidade deve ser adicionado.';
+                }
+                if (!hasBuyers) {
+                    errorMessage += '\n- Pelo menos um comprador (papel de contato) deve ser especificado.';
+                }
+                newOpp.addError(errorMessage);
+            }
+        }
+    }
+
+    @TestVisible
+    private static boolean hasProducts(Id opportunityId) {
+        try {
+            List<OpportunityLineItem> lineItems = OpportunityDA.getOpportunityLineItems(opportunityId);
+            return !lineItems.isEmpty();
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+    @TestVisible
+    private static boolean hasBuyers(Id opportunityId) {
+        try {
+            List<OpportunityContactRole> contactRoles = OpportunityDA.getOpportunityContactRoles(opportunityId);
+            return !contactRoles.isEmpty();
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+    public static void handleBeforeUpdate(List<Opportunity> newOpps, Map<Id, Opportunity> oldOpps) {
+        for (Opportunity newOpp : newOpps) {
+            Opportunity oldOpp = oldOpps.get(newOpp.Id);
+
+            if (!String.isBlank(newOpp.SyncedQuoteId)) {
+                Boolean isEmpreendimentoChanged = newOpp.Empreendimento__c != oldOpp.Empreendimento__c;
+
+                if (isEmpreendimentoChanged) {
+                    newOpp.addError('Não é possível editar o campo Empreendimento enquanto a oportunidade está sincronizada com uma cotação. Desative a sincronização para editar.');
+                }
+            }
+        }
+        
+    }
+    
+    public static void setDefaultChecklistStatus(List<Opportunity> opportunities) {
+        for (Opportunity opp : opportunities) {
+            opp.FarolChecklistDocumento__c = 'Vermelho';
+        }
+    }
+ 
+    public static void handleStageFichaCadastralChangeFarolColor(
+        List<Opportunity> newOpps, Map<Id, Opportunity> oldOppMap
+    ) {
+        if (newOpps == null || newOpps.isEmpty() || oldOppMap == null || oldOppMap.isEmpty()) {
+            throw new IllegalArgumentException('A lista de Oportunidades não deve ser nula ou vazia.');
+        }
+
+        // Coletar IDs de oportunidades que possuem StageName "Ficha Cadastral"
+        Set<Id> oppIdsToProcess = new Set<Id>();
+        for (Opportunity newOpp : newOpps) {
+            Opportunity oldOpp = oldOppMap.get(newOpp.Id);
+            if (oldOpp != null && 'Ficha Cadastral'.equals(oldOpp.StageName)) {
+                oppIdsToProcess.add(newOpp.Id);
+            }
+        }
+        if (oppIdsToProcess.isEmpty()) return;
+
+        // Consultar documentos relacionados às oportunidades
+        List<Checklist_de_Documentos__c> checklistDocs = ChecklistDA.getWithDocumentsByOpportunity(oppIdsToProcess);
+
+        System.debug(checklistDocs);
+
+        // Mapear documentos por oportunidade
+        Map<Id, List<Checklist_de_Documentos__c>> oppToDocumentsMap = new Map<Id, List<Checklist_de_Documentos__c>>();
+        for (Checklist_de_Documentos__c checklistDoc : checklistDocs) {
+            if (!oppToDocumentsMap.containsKey(checklistDoc.Oportunidade__c)) {
+                oppToDocumentsMap.put(checklistDoc.Oportunidade__c, new List<Checklist_de_Documentos__c>());
+            }
+            oppToDocumentsMap.get(checklistDoc.Oportunidade__c).add(checklistDoc);
+        }
+
+        // Processar documentos e definir FarolChecklistDocumento__c
+        for (Opportunity newOpp : newOpps) {
+            List<Checklist_de_Documentos__c> documents = oppToDocumentsMap.get(newOpp.Id);
+            if (documents == null || documents.isEmpty()) continue;
+
+            // Contadores para documentos obrigatórios e opcionais
+            Integer mandatoryCount = 0, deliveredMandatoryCount = 0;
+            Integer optionalCount = 0, deliveredOptionalCount = 0;
+
+            for (Checklist_de_Documentos__c checklistDoc : documents) {
+                Documentacao__c doc = checklistDoc.Documenta_o__r;
+                if (doc == null) continue;
+
+                if (doc.Obrigatorio__c) {
+                    mandatoryCount++;
+                    if (doc.Entregue__c) deliveredMandatoryCount++;
+                } else {
+                    optionalCount++;
+                    if (doc.Entregue__c) deliveredOptionalCount++;
+                }
+            }
+
+            System.debug(deliveredMandatoryCount);
+            System.debug(deliveredOptionalCount);
+
+            // Determinar cor do FarolChecklistDocumento__c
+            if (deliveredMandatoryCount < mandatoryCount) {
+                newOpp.FarolChecklistDocumento__c = 'Vermelho';
+            } else if (deliveredMandatoryCount == mandatoryCount && 
+                    deliveredMandatoryCount + deliveredOptionalCount < mandatoryCount + optionalCount) {
+                newOpp.FarolChecklistDocumento__c = 'Verde';
+            } else if (deliveredMandatoryCount + deliveredOptionalCount == mandatoryCount + optionalCount) {
+                newOpp.FarolChecklistDocumento__c = 'Azul';
+            }
+        }
+    }
+
+
+    public static void handleStageFichaCadastral(List<Opportunity> newOpps) {
+        if (newOpps == null || newOpps.isEmpty()) throw new IllegalArgumentException('A lista de Opportunidade não deve ser nula ou vazia.');
+
+        Set<Id> setOppsId = new Set<Id>();
+        for (Opportunity opp : newOpps) {
+            if (opp.StageName == null ) throw new IllegalArgumentException('Stage de Oportunidade não deve ser null.');
+            if (opp.StageName == 'Pré-análise' && opp.FarolChecklistDocumento__c == 'Vermelho') {
+                opp.addError('Na fase de Ficha cadastral, precisamos preencher todos os documentos obrigatório no Checklist de documentos!');
+            }
+        }
+    }
+
+    public static List<Opportunity> getByAnaliseCreditoId(Set<Id> analisesCreditoId ) {
+        List<Opportunity> opps = OpportunityDA.getAllByAnaliseCreditoId(analisesCreditoId);
+        if (opps.isEmpty()) {
+            throw new IllegalArgumentException('Nenhuma Oportunidade encontrada! Ids inválidos.');
+        }
+        return opps;
+    }
+
+}
