@@ -169,38 +169,43 @@ export default class DocumentChecklist extends LightningElement {
 
     handleViewClick(event) {
         const id = event.target.dataset.id;
-        const doc = this.wiredDocumentos.data.find(it => it.Id == id);
+        const contactId = event.target.dataset.contactId
+        const contact = this.wiredDocumentos.data.find(it => it.ContactId === contactId);
 
-        recuperar({ id })
-        .then(result => {
-                if (result.mimeType != 'image/pdf') {
-                    // Exibir imagem se for um URL de documento
-                    const timestamp = new Date().getTime();
-                    const documentImageUrl = `${result.documentUrl}?t=${timestamp}`;
-                    
-                    const img = document.createElement('img');
-                    img.src = documentImageUrl;
-                    img.alt = doc.Name;
-                    img.style.width = '100%';
-                    img.style.height = 'auto';
+        if(contact) {
+            const doc = contact.Documents.find(doc => doc.Id === id);
 
-                    Modal.open({
-                        label: 'Visualizar Documento',
-                        size: 'small',
-                        image: {
-                            src: documentImageUrl,
-                            alt: doc.Name,
-                        },
-                        isOneButton: true,
-                        description: 'Modal para visualização de documento',
-                    });
-                } else if (result.documentUrl) {
-                    this.event.warning('Documentos do tipo PDF não podem ser visualizados. Faça o download para visualizar.',);
-                }
-            })
-            .catch(error => {
-                this.event.error('Erro ao obter a imagem do documento. Por favor, tente novamente mais tarde.' + error);
-            });
+            recuperar({ id })
+            .then(result => {
+                    if (result.mimeType != 'image/pdf') {
+                        // Exibir imagem se for um URL de documento
+                        const timestamp = new Date().getTime();
+                        const documentImageUrl = `${result.documentUrl}?t=${timestamp}`;
+                        
+                        const img = document.createElement('img');
+                        img.src = documentImageUrl;
+                        img.alt = doc.Name;
+                        img.style.width = '100%';
+                        img.style.height = 'auto';
+
+                        Modal.open({
+                            label: 'Visualizar Documento',
+                            size: 'small',
+                            image: {
+                                src: documentImageUrl,
+                                alt: doc.Name,
+                            },
+                            isOneButton: true,
+                            description: 'Modal para visualização de documento',
+                        });
+                    } else if (result.documentUrl) {
+                        this.event.warning('Documentos do tipo PDF não podem ser visualizados. Faça o download para visualizar.',);
+                    }
+                })
+                .catch(error => {
+                    this.event.error('Erro ao obter a imagem do documento. Por favor, tente novamente mais tarde.' + error);
+                });
+        }        
     }
     
     handleDownloadClick(event) {
