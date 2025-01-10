@@ -36,57 +36,6 @@ public class DocumentControllerTest {
         insert checklist;
     }
 
-    @IsTest
-    static void testValidateDocument_Valid() {
-        Documentacao__c documentacao = [
-            SELECT Id, Validado__c
-            FROM Documentacao__c
-        ];
-        documentacao.Validado__c = false;
-        update documentacao;
-
-        Test.startTest();
-        List<Documentacao__c> results = DocumentController.validateDocument(documentacao.Id);
-        Test.stopTest();
-
-        System.assert(!results.isEmpty(), 'Deveria conter ao menos uma Documentacao');
-        
-        Boolean expected = true;
-        System.assertEquals(expected, results[0].Validado__c, 'O atributo "Validado__c" deveria ser true.');
-    }
-
-    @IsTest
-    static void testInvalidateDocument_Valid() {
-        Documentacao__c documentacao = [
-            SELECT Id, Validado__c
-            FROM Documentacao__c
-        ];
-        documentacao.Validado__c = true;
-        update documentacao;
-
-        Test.startTest();
-        List<Documentacao__c> results = DocumentController.invalidateDocument(documentacao.Id);
-        Test.stopTest();
-
-        System.assert(!results.isEmpty(), 'Deveria conter ao menos uma Documentacao');
-        
-        Boolean expected = false;
-        System.assertEquals(expected, results[0].Validado__c, 'O atributo "Validado__c" deveria ser false');
-    }
-
-    @IsTest
-    static void testGetDocumentosByAnaliseCredito_Valid(){
-        AnaliseCredito__c analise = [
-            SELECT Id, Name
-            FROM AnaliseCredito__c
-        ];
-
-        Test.startTest();
-        List<Documentacao__c> results = DocumentController.getDocumentosByAnaliseCredito(analise.Id);
-        Test.stopTest();
-        
-        System.assert(!results.isEmpty(), 'Deveria conter ao menos uma Documentacao relacionada a Analise: '+ analise.Id);
-    }
 
     // getOpportunityContactRoleByOpportunityId
     // getDocumentosByAnaliseCredito

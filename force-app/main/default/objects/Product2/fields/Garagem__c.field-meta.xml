@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Garagem__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <label>Kit de Garagem</label>
+    <lookupFilter>
+        <active>true</active>
+        <errorMessage>São apenas permitidos produtos do tipo &quot;Vaga&quot;</errorMessage>
+        <filterItems>
+            <field>$Source.RecordTypeId</field>
+            <operation>equals</operation>
+            <value>Vaga</value>
+        </filterItems>
+        <isOptional>false</isOptional>
+    </lookupFilter>
+    <referenceTo>Garagem__c</referenceTo>
+    <relationshipLabel>Vagas</relationshipLabel>
+    <relationshipName>Produtos</relationshipName>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <type>Lookup</type>
+</CustomField>
