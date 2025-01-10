@@ -92,14 +92,42 @@
                                                 <template if:true={doc.Entregue__c}>
                                                     <lightning-button-icon icon-name="utility:delete"
                                                         alternative-text="Delete" title="Deletar" data-id={doc.Id}
-                                                        onclick={deletarArquivo}>
-                                                    </lightning-button-icon>
+                                                        onclick={deletarArquivo}></lightning-button-icon>
+
+                                                    <lightning-button-icon icon-name="utility:preview"
+                                                        alternative-text="View" title="Visualizar Documento"
+                                                        data-id={doc.Id}
+                                                        data-contact-id={contact.ContactId}
+                                                        onclick={handleViewClick}></lightning-button-icon>
+
+                                                    <lightning-button-icon icon-name="utility:download"
+                                                        alternative-text="Download" title="Download" data-id={doc.Id}
+                                                        onclick={handleDownloadClick}></lightning-button-icon>
+                                                </template>
+
+                                                <template if:false={doc.Entregue__c}>
+                                                    <div class="upload-container">
+                                                        <lightning-helptext content="Somente Aceitos Arquivos PNG e JPG"
+                                                            class="help-text"></lightning-helptext>
+                                                        <lightning-button-icon icon-name="utility:upload"
+                                                            alternative-text="Upload" title="Upload" 
+                                                            data-id={doc.Id}
+                                                            data-contact-id={contact.ContactId}
+                                                            data-nome-id={doc.Name} 
+                                                            data-completed="true"
+                                                            onclick={handleUploadClick}></lightning-button-icon>
+                                                    </div>
+                                                </template>
+                                            </div>
+                                            <div class="approval-icon-container">
+                                                <template if:true={doc.Entregue__c}>
+                                                    <lightning-icon icon-name='standard:task2' alternative-text='task2'
+                                                        size='medium' title='task2'></lightning-icon>
                                                 </template>
                                                 <template if:false={doc.Entregue__c}>
-                                                    <lightning-button-icon icon-name="utility:upload"
-                                                        alternative-text="Upload" title="Upload" data-id={doc.Id}
-                                                        onclick={handleUploadClick}>
-                                                    </lightning-button-icon>
+                                                    <lightning-icon icon-name="utility:warning"
+                                                        alternative-text="Warning" size='medium'
+                                                        class="warning-icon"></lightning-icon>
                                                 </template>
                                             </div>
                                         </div>
