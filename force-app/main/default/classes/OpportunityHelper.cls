@@ -34,20 +34,6 @@ public with sharing class OpportunityHelper {
             }
         }
 
-        
-    public static List<Schema.PicklistEntry> getPicklistValues(Schema.sObjectField field) {
-    
-        List<Schema.PicklistEntry> entries = field.getDescribe().getPickListValues();
-    
-        List<Schema.PicklistEntry> activeEntries = new List<Schema.PicklistEntry>();
-        for (Schema.PicklistEntry entry : entries) {
-            if (entry.isActive()) {
-                activeEntries.add(entry);
-            }
-        }
-        return activeEntries;
-    }
-    
 
     public static void validateTransitionToFichaCadastral(List<Opportunity> newOpportunities, Map<Id, Opportunity> oldOpportunitiesMap) {
         for (Opportunity newOpp : newOpportunities) {
@@ -116,12 +102,6 @@ public with sharing class OpportunityHelper {
         
     }
     
-    public static void setDefaultChecklistStatus(List<Opportunity> opportunities) {
-        for (Opportunity opp : opportunities) {
-            opp.FarolChecklistDocumento__c = 'Vermelho';
-        }
-    }
- 
     public static void handleStageFichaCadastralChangeFarolColor(
         List<Opportunity> newOpps, Map<Id, Opportunity> oldOppMap
     ) {
@@ -129,7 +109,6 @@ public with sharing class OpportunityHelper {
             throw new IllegalArgumentException('A lista de Oportunidades não deve ser nula ou vazia.');
         }
 
-        // Coletar IDs de oportunidades que possuem StageName "Ficha Cadastral"
         Set<Id> oppIdsToProcess = new Set<Id>();
         for (Opportunity newOpp : newOpps) {
             Opportunity oldOpp = oldOppMap.get(newOpp.Id);
@@ -139,53 +118,86 @@ public with sharing class OpportunityHelper {
         }
         if (oppIdsToProcess.isEmpty()) return;
 
-        // Consultar documentos relacionados às oportunidades
-        List<Checklist_de_Documentos__c> checklistDocs = ChecklistDA.getWithDocumentsByOpportunity(oppIdsToProcess);
+        Map<Id, List<String>> oppToRolesMap = new Map<Id, List<String>>();
+        for (OpportunityContactRole cr : [
+            SELECT OpportunityId, Role FROM OpportunityContactRole 
+            WHERE OpportunityId IN :oppIdsToProcess
+        ]) {
+            if (!oppToRolesMap.containsKey(cr.OpportunityId)) {
+                oppToRolesMap.put(cr.OpportunityId, new List<String>());
+            }
+            oppToRolesMap.get(cr.OpportunityId).add(cr.Role);
+        }
+    
+        Map<String, List<Documento__mdt>> roleToDocumentsMap = new Map<String, List<Documento__mdt>>();
+        for (Documento__mdt doc : [
+            SELECT Nome_do_Documento__c, Obrigatorio__c, Papel__c FROM Documento__mdt
+        ]) {
+            if (!roleToDocumentsMap.containsKey(doc.Papel__c)) {
+                roleToDocumentsMap.put(doc.Papel__c, new List<Documento__mdt>());
+            }
+            roleToDocumentsMap.get(doc.Papel__c).add(doc);
+        }
 
-        // Mapear documentos por oportunidade
         Map<Id, List<Checklist_de_Documentos__c>> oppToDocumentsMap = new Map<Id, List<Checklist_de_Documentos__c>>();
-        for (Checklist_de_Documentos__c checklistDoc : checklistDocs) {
+        for (Checklist_de_Documentos__c checklistDoc : ChecklistDA.getWithDocumentsByOpportunity(oppIdsToProcess)) {
             if (!oppToDocumentsMap.containsKey(checklistDoc.Oportunidade__c)) {
                 oppToDocumentsMap.put(checklistDoc.Oportunidade__c, new List<Checklist_de_Documentos__c>());
             }
             oppToDocumentsMap.get(checklistDoc.Oportunidade__c).add(checklistDoc);
         }
-
-        // Processar documentos e definir FarolChecklistDocumento__c
+    
         for (Opportunity newOpp : newOpps) {
-            List<Checklist_de_Documentos__c> documents = oppToDocumentsMap.get(newOpp.Id);
-            if (documents == null || documents.isEmpty()) continue;
-
-            // Contadores para documentos obrigatórios e opcionais
-            Integer mandatoryCount = 0, deliveredMandatoryCount = 0;
-            Integer optionalCount = 0, deliveredOptionalCount = 0;
-
-            for (Checklist_de_Documentos__c checklistDoc : documents) {
-                Documentacao__c doc = checklistDoc.Documenta_o__r;
-                if (doc == null) continue;
-
-                if (doc.Obrigatorio__c) {
-                    mandatoryCount++;
-                    if (doc.Entregue__c) deliveredMandatoryCount++;
-                } else {
-                    optionalCount++;
-                    if (doc.Entregue__c) deliveredOptionalCount++;
+            if (!oppIdsToProcess.contains(newOpp.Id)) continue;
+    
+            Integer totalMandatoryCount = 0;
+            Integer totalOptionalCount = 0;
+    
+            List<String> roles = oppToRolesMap.get(newOpp.Id);
+            if (roles != null) {
+                for (String role : roles) {
+                    List<Documento__mdt> documents = roleToDocumentsMap.get(role);
+                    if (documents != null) {
+                        for (Documento__mdt doc : documents) {
+                            if (doc.Obrigatorio__c) {
+                                totalMandatoryCount++;
+                            } else {
+                                totalOptionalCount++;
+                            }
+                        }
+                    }
                 }
             }
-
-            // Determinar cor do FarolChecklistDocumento__c
-            if (deliveredMandatoryCount < mandatoryCount) {
+    
+            Integer deliveredMandatoryCount = 0;
+            Integer deliveredOptionalCount = 0;
+    
+            List<Checklist_de_Documentos__c> documents = oppToDocumentsMap.get(newOpp.Id);
+            if (documents != null) {
+                for (Checklist_de_Documentos__c checklistDoc : documents) {
+                    Documentacao__c doc = checklistDoc.Documenta_o__r;
+                    if (doc != null && doc.Entregue__c) {
+                        if (doc.Obrigatorio__c) {
+                            deliveredMandatoryCount++;
+                        } else {
+                            deliveredOptionalCount++;
+                        }
+                    }
+                }
+            }
+    
+            if (deliveredMandatoryCount < totalMandatoryCount) {
                 newOpp.FarolChecklistDocumento__c = 'Vermelho';
-            } else if (deliveredMandatoryCount == mandatoryCount && 
-                    deliveredMandatoryCount + deliveredOptionalCount < mandatoryCount + optionalCount) {
+            } else if (deliveredMandatoryCount == totalMandatoryCount &&
+                       deliveredMandatoryCount + deliveredOptionalCount < totalMandatoryCount + totalOptionalCount) {
                 newOpp.FarolChecklistDocumento__c = 'Verde';
-            } else if (deliveredMandatoryCount + deliveredOptionalCount == mandatoryCount + optionalCount) {
+            } else if (deliveredMandatoryCount + deliveredOptionalCount == totalMandatoryCount + totalOptionalCount) {
                 newOpp.FarolChecklistDocumento__c = 'Azul';
             }
         }
-    }
+    }    
 
-
+    
     public static void handleStageFichaCadastral(List<Opportunity> newOpps) {
         if (newOpps == null || newOpps.isEmpty()) throw new IllegalArgumentException('A lista de Opportunidade não deve ser nula ou vazia.');
 

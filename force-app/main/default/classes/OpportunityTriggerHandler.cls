@@ -1,7 +1,7 @@
 public with sharing class OpportunityTriggerHandler extends TriggerHandler {
 
     public override void beforeInsert() {
-        OpportunityHelper.setDefaultChecklistStatus((List<Opportunity>) Trigger.new);
+        // OpportunityHelper.setDefaultChecklistStatus((List<Opportunity>) Trigger.new);
         OpportunityHelper.addDaysToCloseDateOnCreation((List<Opportunity>) Trigger.new);
     }
     

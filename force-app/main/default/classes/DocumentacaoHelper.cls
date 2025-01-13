@@ -190,6 +190,8 @@ public class DocumentacaoHelper {
                 WHERE Papel__c = :cr.Role
             ];
     
+            System.debug('Documentos do metadata: ' + listOfMtdDocuments);
+    
             List<Documentacao__c> documents = new List<Documentacao__c>();
     
             for (Documento__mdt docMdt : listOfMtdDocuments) {
